@@ -1,7 +1,18 @@
+import { useState } from 'react'
 import { Container, Menu, Grid, Icon, Label } from 'semantic-ui-react'
 import Link from 'next/link'
+import BasicModal from '../../modal/BasicModal'
+import Auth from '../../auth'
 
 export default function MenuWeb() {
+
+    const [ showModal, setShowModal ] = useState(false)
+    const [ titleModal, setTitleModal ] = useState("Login")
+
+    const onShowModal = () => setShowModal(true)
+
+    const onCloseModal = () => setShowModal(false)
+
     return (
         <div className="menu">
             <Container>
@@ -10,10 +21,13 @@ export default function MenuWeb() {
                         <MenuPlatform/>
                     </Grid.Column>
                     <Grid.Column className="menu__right" width={10}>
-                        <MenuOptions/>
+                        <MenuOptions onShowModal={onShowModal}/>
                     </Grid.Column>
                 </Grid>
             </Container>
+            <BasicModal show={showModal} setShow={setShowModal} title={titleModal} size="small">
+                <Auth setTitleModal={setTitleModal} onCloseModal={onCloseModal}/>
+            </BasicModal>
         </div>
     )
 }
@@ -41,10 +55,10 @@ function MenuPlatform(){
 }
 
 
-function MenuOptions() {
+function MenuOptions({onShowModal}) {
     return(
         <Menu>
-            <Menu.Item>
+            <Menu.Item onClick={()=>onShowModal()}>
                 <Icon name="user outline"/>
                 Mi Cuenta
             </Menu.Item>
