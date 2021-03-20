@@ -1,13 +1,24 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Container, Menu, Grid, Icon, Label } from 'semantic-ui-react'
+import { getMeApi } from '../../../api/user'
 import Link from 'next/link'
 import BasicModal from '../../modal/BasicModal'
 import Auth from '../../auth'
+import useAuth from '../../../hooks/useAuth'
 
 export default function MenuWeb() {
 
-    const [ showModal, setShowModal ] = useState(false)
-    const [ titleModal, setTitleModal ] = useState("Login")
+    const [showModal, setShowModal] = useState(false)
+    const [titleModal, setTitleModal] = useState("Login")
+    const [user, setUser] = useState(undefined)
+    const { auth, logout } = useAuth()
+
+    useEffect(() => {
+        (async () => {
+            const response = await getMeApi(logout)
+            setUser(response)
+        })()
+    }, [auth])
 
     const onShowModal = () => setShowModal(true)
 
@@ -18,21 +29,23 @@ export default function MenuWeb() {
             <Container>
                 <Grid>
                     <Grid.Column className="menu__left" width={6}>
-                        <MenuPlatform/>
+                        <MenuPlatform />
                     </Grid.Column>
                     <Grid.Column className="menu__right" width={10}>
-                        <MenuOptions onShowModal={onShowModal}/>
+                        {user !== undefined && (
+                            <MenuOptions onShowModal={onShowModal} user={user} logout={logout} />
+                        )}
                     </Grid.Column>
                 </Grid>
             </Container>
             <BasicModal show={showModal} setShow={setShowModal} title={titleModal} size="small">
-                <Auth setTitleModal={setTitleModal} onCloseModal={onCloseModal}/>
+                <Auth setTitleModal={setTitleModal} onCloseModal={onCloseModal} />
             </BasicModal>
         </div>
     )
 }
 
-function MenuPlatform(){
+function MenuPlatform() {
     return (
         <Menu>
             <Link href="/play-station">
@@ -55,13 +68,44 @@ function MenuPlatform(){
 }
 
 
-function MenuOptions({onShowModal}) {
-    return(
+function MenuOptions({ onShowModal, user, logout }) {
+    return (
         <Menu>
-            <Menu.Item onClick={()=>onShowModal()}>
-                <Icon name="user outline"/>
-                Mi Cuenta
-            </Menu.Item>
+            { user ? (
+                <>
+                    <Link href="/orders">
+                        <Menu.Item as="a">
+                            <Icon name="game" />
+                        Mis Pedidos
+                        </Menu.Item>
+                    </Link>
+                    <Link href="/wishlist">
+                        <Menu.Item as="a">
+                            <Icon name="heart outline" />
+                        Wishlist
+                        </Menu.Item>
+                    </Link>
+                    <Link href="/account">
+                        <Menu.Item as="a">
+                            <Icon name="user" />
+                        {user.name} {user.lastname}
+                        </Menu.Item>
+                    </Link>
+                    <Link href="/cart">
+                        <Menu.Item as="a" className="m-0">
+                            <Icon name="cart"/>
+                        </Menu.Item>
+                    </Link>
+                    <Menu.Item onClick={logout} className="m-0">
+                        <Icon name="power off"/>
+                    </Menu.Item>
+                </>
+            ) : (
+                <Menu.Item onClick={() => onShowModal()}>
+                    <Icon name="user outline" />
+                    Mi Cuenta
+                </Menu.Item>
+            )}
         </Menu>
     )
 }
