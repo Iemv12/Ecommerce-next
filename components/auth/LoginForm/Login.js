@@ -3,21 +3,22 @@ import { Form, Button} from 'semantic-ui-react'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { toast } from 'react-toastify'
-import { login } from '../../../api/user'
+import { loginApi } from '../../../api/user'
 import { error } from '../../../middleware/formMessage'
+import useAuth from '../../../hooks/useAuth'
 
 export default function Login({showRegisterForm, onCloseModal}) {
 
     const [loading, setLoading] = useState(false)
-
+    const { login } = useAuth()
     const formik = useFormik({
         initialValues: initialValue(),
         validationSchema: Yup.object(validationSchema()),
         onSubmit: async (formData) => {
             setLoading(true)
-            const response = await login(formData)
+            const response = await loginApi(formData)
             if(response?.jwt){
-                console.log(response)
+                login(response.jwt)
                 onCloseModal()
                 toast.success("Sesion Iniciada")
             }else{

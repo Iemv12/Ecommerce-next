@@ -1,6 +1,6 @@
 import { BASE_PATH } from "../utils/constants"
 
-export async function register(user){
+export async function registerApi(user){
     try {
         const url = `${BASE_PATH}/auth/local/register`
         const params = {
@@ -20,7 +20,7 @@ export async function register(user){
     }
 }
 
-export async function login(user){
+export async function loginApi(user){
     try {
         const url = `${BASE_PATH}/auth/local`
         const params = {
