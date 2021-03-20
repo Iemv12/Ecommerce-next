@@ -4,6 +4,7 @@ import { useFormik } from 'formik'
 import * as Yup from "yup"
 import { register } from '../../../api/user'
 import { toast } from 'react-toastify'
+import { error } from '../../../middleware/formMessage'
 
 export default function Register({ showLoginForm }) {
 
@@ -64,11 +65,3 @@ function validationSchema() {
     }
 }
 
-function error(message){
-    switch (message) {
-        case "Email is already taken.":
-            return "Ya hay un usuario con este Email"
-        default:
-            return "Error, intente la accion mas tarde";
-    }
-}

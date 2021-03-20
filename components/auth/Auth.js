@@ -2,8 +2,8 @@ import { useState } from 'react'
 import Login from './LoginForm'
 import Register from './RegisterForm'
 
-export default function Auth({onCloseModal, setTitleModal}) {
-    const [showLogin, setShowLogin] = useState(false)
+export default function  Auth({onCloseModal, setTitleModal}) {
+    const [showLogin, setShowLogin] = useState(true)
 
     const showLoginForm = () => {
         setShowLogin(true)
@@ -15,5 +15,5 @@ export default function Auth({onCloseModal, setTitleModal}) {
         setTitleModal("Register")
     }
 
-    return showLogin ? <Login showRegisterForm={showRegisterForm}/> : <Register showLoginForm={showLoginForm}/>
+    return showLogin ? <Login onCloseModal={onCloseModal} showRegisterForm={showRegisterForm}/> : <Register showLoginForm={showLoginForm}/>
 }
