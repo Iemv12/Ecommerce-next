@@ -5,6 +5,7 @@ import { getMeApi } from '../../api/user'
 import { useState, useEffect } from 'react'
 import ChanceNameForm from '../../components/account/ChanceNameForm'
 import ChanceEmailForm from '../../components/account/ChanceEmailForm'
+import ChancePasswordForm from '../../components/account/ChancePasswordForm'
 
 export default function index() {
 
@@ -41,6 +42,7 @@ function Configuration({user, logout, setReloadUser}){
             <div className="data">
                 <ChanceNameForm setReloadUser={setReloadUser} user={user} logout={logout}/>
                 <ChanceEmailForm setReloadUser={setReloadUser} user={user} logout={logout}/>
+                <ChancePasswordForm user={user} logout={logout}/>
             </div>
         </div>
     )

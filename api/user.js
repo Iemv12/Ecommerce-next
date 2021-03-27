@@ -1,13 +1,13 @@
 import { BASE_PATH } from "../utils/constants"
 import { authFetch } from "../utils/fetch"
 
-export async function registerApi(user){
+export async function registerApi(user) {
     try {
         const url = `${BASE_PATH}/auth/local/register`
         const params = {
             method: 'POST',
-            headers:{
-                "Content-Type":"application/json"
+            headers: {
+                "Content-Type": "application/json"
             },
             body: JSON.stringify(user)
         }
@@ -21,13 +21,13 @@ export async function registerApi(user){
     }
 }
 
-export async function loginApi(user){
+export async function loginApi(user) {
     try {
         const url = `${BASE_PATH}/auth/local`
         const params = {
             method: "POST",
-            headers:{
-                "Content-Type":"application/json"
+            headers: {
+                "Content-Type": "application/json"
             },
             body: JSON.stringify(user)
         }
@@ -40,15 +40,15 @@ export async function loginApi(user){
     }
 }
 
-export async function forgotPasswordApi(email){
+export async function forgotPasswordApi(email) {
     try {
         const url = `${BASE_PATH}/auth/forgot-password`
         const params = {
             method: "POST",
-            headers:{
-                "Content-Type":"application/json"
+            headers: {
+                "Content-Type": "application/json"
             },
-            body: JSON.stringify({email})
+            body: JSON.stringify({ email })
         }
         const response = await fetch(url, params)
         const result = await response.json()
@@ -60,7 +60,7 @@ export async function forgotPasswordApi(email){
     }
 }
 
-export async function getMeApi(logout){
+export async function getMeApi(logout) {
     try {
         const url = `${BASE_PATH}/users/me`
         const result = await authFetch(url, null, logout)
@@ -71,13 +71,13 @@ export async function getMeApi(logout){
     }
 }
 
-export async function updateMeApi(id, data, logout){
+export async function updateMeApi(id, data, logout) {
     try {
         const url = `${BASE_PATH}/users/${id}`
         const params = {
             method: 'PUT',
             headers: {
-                "Content-Type":"application/json"
+                "Content-Type": "application/json"
             },
             body: JSON.stringify(data)
         }
@@ -89,7 +89,7 @@ export async function updateMeApi(id, data, logout){
     }
 }
 
-export async function updateEmailApi(id, email, logout){
+export async function updateEmailApi(id, email, logout) {
     try {
         const url = `${BASE_PATH}/users/${id}`
         const params = {
@@ -97,10 +97,27 @@ export async function updateEmailApi(id, email, logout){
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({email})
+            body: JSON.stringify({ email })
         }
         const result = await authFetch(url, params, logout)
-        console.log(result)
+        return result ? result : null
+    } catch (error) {
+        console.log(error)
+        return null
+    }
+}
+
+export async function updatePasswordApi(id, password, logout) {
+    try {
+        const url = `${BASE_PATH}/users/${id}`
+        const params = {
+            method: 'PUT',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ password })
+        }
+        const result = await authFetch(url, params, logout)
         return result ? result : null
     } catch (error) {
         console.log(error)
