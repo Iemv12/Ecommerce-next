@@ -4,7 +4,7 @@ import { useFormik } from 'formik'
 import * as Yup from "yup"
 import { registerApi } from '../../../api/user'
 import { toast } from 'react-toastify'
-import { error } from '../../../middleware/formMessage'
+import { error } from '../../../utils/formMessage'
 
 export default function Register({ showLoginForm }) {
 

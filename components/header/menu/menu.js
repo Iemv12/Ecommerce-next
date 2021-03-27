@@ -87,7 +87,7 @@ function MenuOptions({ onShowModal, user, logout }) {
                     </Link>
                     <Link href="/account">
                         <Menu.Item as="a">
-                            <Icon name="user" />
+                            <Icon name="user outline" />
                         {user.name} {user.lastname}
                         </Menu.Item>
                     </Link>

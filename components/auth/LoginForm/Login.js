@@ -4,7 +4,7 @@ import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { toast } from 'react-toastify'
 import { loginApi, forgotPasswordApi } from '../../../api/user'
-import { error } from '../../../middleware/formMessage'
+import { error } from '../../../utils/formMessage'
 import useAuth from '../../../hooks/useAuth'
 
 export default function Login({showRegisterForm, onCloseModal}) {

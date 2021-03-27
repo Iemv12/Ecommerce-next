@@ -1,10 +1,13 @@
 import React from 'react'
 import { Container } from 'semantic-ui-react'
 import Header from '../../components/header'
+import classNames from 'classnames'
 
-export default function BasicLayout({children}) {
+export default function BasicLayout({children, className}) {
     return (
-        <Container fluid className="basic-layout">
+        <Container fluid className={classNames("basic-layout",{
+            [className]:className
+        })}>
             <Header/>
             <Container className="content">
                 {children}
