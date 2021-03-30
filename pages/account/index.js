@@ -1,4 +1,5 @@
 import BasicLayout from '../../layouts/BasicLayout'
+import { Icon } from 'semantic-ui-react'
 import useAuth from '../../hooks/useAuth'
 import { useRouter } from 'next/router'
 import { getMeApi } from '../../api/user'
@@ -6,6 +7,8 @@ import { useState, useEffect } from 'react'
 import ChanceNameForm from '../../components/account/ChanceNameForm'
 import ChanceEmailForm from '../../components/account/ChanceEmailForm'
 import ChancePasswordForm from '../../components/account/ChancePasswordForm'
+import BasicModal from '../../components/modal/BasicModal'
+import AddressForm from '../../components/account/AddressForm'
 
 export default function index() {
 
@@ -30,6 +33,7 @@ export default function index() {
     return (
         <BasicLayout className="account">
             <Configuration user={user} logout={logout} setReloadUser={setReloadUser}/>
+            <Addresses/>
         </BasicLayout>
     )
 }
@@ -44,6 +48,34 @@ function Configuration({user, logout, setReloadUser}){
                 <ChanceEmailForm setReloadUser={setReloadUser} user={user} logout={logout}/>
                 <ChancePasswordForm user={user} logout={logout}/>
             </div>
+        </div>
+    )
+}
+
+function Addresses() {
+
+    const [showModal, setShowModal] = useState(false)
+    const [titleModal, setTitleModal] = useState("")
+    const [formModal, setFormModal] = useState(null)
+
+    const openModal = (title) => {
+        setTitleModal(title)
+        setFormModal(<AddressForm setShowModal={setShowModal}/>)
+        setShowModal(true)
+    }
+
+    return (
+        <div className="account__addresses">
+            <div className="title">
+                Direcciones
+                <Icon name="plus" onClick={()=>openModal("Nueva direccion")} link/>
+            </div>
+            <div className="data">
+                <p>Lista de direcciones...</p>
+            </div>
+            <BasicModal show={showModal} setShow={setShowModal} title={titleModal}>
+                {formModal}
+            </BasicModal>
         </div>
     )
 }
