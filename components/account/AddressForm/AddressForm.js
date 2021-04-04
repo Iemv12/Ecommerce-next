@@ -7,7 +7,7 @@ import { createAddressApi } from '../../../api/address'
 import { toast } from 'react-toastify'
 
 
-export default function AddressForm({setShowModal}) {
+export default function AddressForm({setShowModal, setReloadAddress}) {
 
     const [loading, setLoading] = useState(false)
 
@@ -34,6 +34,7 @@ export default function AddressForm({setShowModal}) {
         } else {
             formik.resetForm()
             toast.success("Direccion guardada")
+            setReloadAddress(true)
             setShowModal(false)
         }
         setLoading(false)
