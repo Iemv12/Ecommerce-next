@@ -1,8 +1,9 @@
 import useAuth from '../../../hooks/useAuth'
 import { useState, useEffect} from 'react'
-import { getAddressApi } from '../../../api/address'
+import { getAddressApi, deleteAddresApi } from '../../../api/address'
 import { Grid, Button } from 'semantic-ui-react'
 import { map, size} from 'lodash'
+import { toast } from 'react-toastify'
 
 export default function ListAddress({reloadAddress, setReloadAddress}) {
     const [addresses, setAddresses] = useState(null)
@@ -27,7 +28,7 @@ export default function ListAddress({reloadAddress, setReloadAddress}) {
                 <Grid>
                     {map(addresses, (address) => (
                         <Grid.Column key={address.id} computer={4} tablet={8} mobile={16}>
-                            <Address address={address}/>
+                            <Address setReloadAddress={setReloadAddress} address={address} logout={logout}/>
                         </Grid.Column>
                     ))}
                 </Grid>
@@ -37,9 +38,21 @@ export default function ListAddress({reloadAddress, setReloadAddress}) {
 }
 
 
-function Address({address}){
+function Address({address, logout, setReloadAddress}){
 
-    const {title, name, address: addressTemp, state, city, postalCode, phone} = address
+    const {id, title, name, address: addressTemp, state, city, postalCode, phone} = address
+
+    const [loadingDelete, setLoadingDelete] = useState(false)
+
+    const deleteAddress = async () => {
+        setLoadingDelete(true)
+        const response = await deleteAddresApi(id, logout)
+        if(response){
+            setReloadAddress(true)
+            toast.success("Direccion eliminada")
+        }else toast.error("Error al eliminar la direccion")
+        setLoadingDelete(false)
+    }
 
     return (
         <div className="address">
@@ -50,7 +63,7 @@ function Address({address}){
             <p>{phone}</p>
             <div className="actions">
                 <Button primary>Editar</Button>
-                <Button>Eliminar</Button>
+                <Button onClick={deleteAddress} loading={loadingDelete}>Eliminar</Button>
             </div>
         </div>
     )
