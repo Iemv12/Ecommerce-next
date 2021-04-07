@@ -5,7 +5,7 @@ import { Grid, Button } from 'semantic-ui-react'
 import { map, size} from 'lodash'
 import { toast } from 'react-toastify'
 
-export default function ListAddress({reloadAddress, setReloadAddress}) {
+export default function ListAddress({reloadAddress, openModal, setReloadAddress}) {
     const [addresses, setAddresses] = useState(null)
 
     const {auth, logout} = useAuth()
@@ -28,7 +28,12 @@ export default function ListAddress({reloadAddress, setReloadAddress}) {
                 <Grid>
                     {map(addresses, (address) => (
                         <Grid.Column key={address.id} computer={4} tablet={8} mobile={16}>
-                            <Address setReloadAddress={setReloadAddress} address={address} logout={logout}/>
+                            <Address
+                            setReloadAddress={setReloadAddress}
+                            address={address}
+                            logout={logout}
+                            openModal={openModal}
+                            />
                         </Grid.Column>
                     ))}
                 </Grid>
@@ -38,7 +43,7 @@ export default function ListAddress({reloadAddress, setReloadAddress}) {
 }
 
 
-function Address({address, logout, setReloadAddress}){
+function Address({address, logout, setReloadAddress, openModal}){
 
     const {id, title, name, address: addressTemp, state, city, postalCode, phone} = address
 
@@ -62,7 +67,7 @@ function Address({address, logout, setReloadAddress}){
             <p>{state}, {city}, {postalCode}</p>
             <p>{phone}</p>
             <div className="actions">
-                <Button primary>Editar</Button>
+                <Button primary onClick={()=>openModal(`Editar: ${title}`, address)}>Editar</Button>
                 <Button onClick={deleteAddress} loading={loadingDelete}>Eliminar</Button>
             </div>
         </div>

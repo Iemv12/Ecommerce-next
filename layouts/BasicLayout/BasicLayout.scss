@@ -12,7 +12,7 @@
         -moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
         overflow: scroll;
 
-        &::-webkit-scrollbar{
+        &::-webkit-scrollbar:horizontal{
             display: none;
         }
     }

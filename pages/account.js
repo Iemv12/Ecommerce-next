@@ -1,17 +1,17 @@
-import BasicLayout from '../../layouts/BasicLayout'
+import BasicLayout from '../layouts/BasicLayout'
 import { Icon } from 'semantic-ui-react'
-import useAuth from '../../hooks/useAuth'
+import useAuth from '../hooks/useAuth'
 import { useRouter } from 'next/router'
-import { getMeApi } from '../../api/user'
+import { getMeApi } from '../api/user'
 import { useState, useEffect } from 'react'
-import ChanceNameForm from '../../components/account/ChanceNameForm'
-import ChanceEmailForm from '../../components/account/ChanceEmailForm'
-import ChancePasswordForm from '../../components/account/ChancePasswordForm'
-import BasicModal from '../../components/modal/BasicModal'
-import AddressForm from '../../components/account/AddressForm'
-import ListAddress from '../../components/account/ListAddress'
+import ChanceNameForm from '../components/account/ChanceNameForm'
+import ChanceEmailForm from '../components/account/ChanceEmailForm'
+import ChancePasswordForm from '../components/account/ChancePasswordForm'
+import BasicModal from '../components/modal/BasicModal'
+import AddressForm from '../components/account/AddressForm'
+import ListAddress from '../components/account/ListAddress'
 
-export default function index() {
+export default function account() {
 
     const [user, setUser] = useState(undefined)
     const [reloadAddress, setReloadAddress] = useState(false)
@@ -60,9 +60,14 @@ function Addresses({reloadAddress, setReloadAddress}) {
     const [titleModal, setTitleModal] = useState("")
     const [formModal, setFormModal] = useState(null)
 
-    const openModal = (title) => {
+    const openModal = (title, address) => {
         setTitleModal(title)
-        setFormModal(<AddressForm setShowModal={setShowModal} setReloadAddress={setReloadAddress}/>)
+        setFormModal(<AddressForm
+            setShowModal={setShowModal}
+            setReloadAddress={setReloadAddress}
+            newAddress={address ? false : true}
+            address={address || null}
+            />)
         setShowModal(true)
     }
 
@@ -73,7 +78,7 @@ function Addresses({reloadAddress, setReloadAddress}) {
                 <Icon name="plus" onClick={()=>openModal("Nueva direccion")} link/>
             </div>
             <div className="data">
-                <ListAddress reloadAddress={reloadAddress} setReloadAddress={setReloadAddress}/>
+                <ListAddress openModal={openModal} reloadAddress={reloadAddress} setReloadAddress={setReloadAddress}/>
             </div>
             <BasicModal show={showModal} setShow={setShowModal} title={titleModal}>
                 {formModal}
