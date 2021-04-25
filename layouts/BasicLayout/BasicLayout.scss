@@ -1,19 +1,19 @@
-.basic-layout{
-    min-height: 100vh;
-    background-image: url("https://res.cloudinary.com/ivancloud/image/upload/v1616129894/static/bg-web_oygbi3.jpg");
-    background-size: cover;
-    background-position: center;
+.basic-layout {
+  min-height: 100vh;
+  background-image: url("https://res.cloudinary.com/ivancloud/image/upload/v1616129894/static/bg-web_oygbi3.jpg");
+  background-size: cover;
+  background-position: center;
 
-    .content{
-        background-color: $background-grey-light;
-        height: calc(100vh - 130px);
-        box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
-        -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
-        -moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
-        overflow: scroll;
+  .content {
+    background-color: $background-grey-light;
+    height: calc(100vh - 130px);
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+    -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+    overflow: scroll;
 
-        &::-webkit-scrollbar:horizontal{
-            display: none;
-        }
+    &::-webkit-scrollbar:horizontal {
+      display: none;
     }
+  }
 }
