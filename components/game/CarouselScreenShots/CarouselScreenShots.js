@@ -34,7 +34,7 @@ export default function CarouselScreenShots({ title, screenshots }) {
                     />
                 ))}
             </Slider>
-            <Modal open={showModal} onClose={() => setShowModal(false)} size="large">
+            <Modal open={showModal} onClose={() => setShowModal(false)} size="small">
                 <Image src={urlImage} alt={title} className="modal-image" />
             </Modal>
         </>

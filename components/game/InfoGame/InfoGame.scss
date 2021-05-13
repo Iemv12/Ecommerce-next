@@ -4,4 +4,17 @@
     width: 100% !important;
     height: 620px !important;
   }
+  &__content {
+    padding: 14px;
+    color: $font-grey;
+    &-date {
+      display: flex;
+      margin-top: 20px;
+      justify-content: flex-end;
+      h4 {
+        color: $primary;
+        margin-right: 10px;
+      }
+    }
+  }
 }
