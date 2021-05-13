@@ -7,26 +7,28 @@ import { useRouter } from 'next/router'
 import "../scss/global.scss"
 import 'semantic-ui-css/semantic.min.css'
 import 'react-toastify/dist/ReactToastify.css'
+import "slick-carousel/slick/slick.css"
+import "slick-carousel/slick/slick-theme.css"
 
 export default function MyApp({ Component, pageProps }) {
 
-  const [ auth, setAuth ] = useState(undefined)
-  const [ reloadUser, setReloadUser ] = useState(false)
+  const [auth, setAuth] = useState(undefined)
+  const [reloadUser, setReloadUser] = useState(false)
 
   const router = useRouter()
 
-  useEffect(()=>{
+  useEffect(() => {
     const token = getToken()
-    if(token){
+    if (token) {
       setAuth({
         token,
         idUser: jwtDecode(token).id
       })
-    }else{
+    } else {
       setAuth(null)
     }
     setReloadUser(false)
-  },[reloadUser])
+  }, [reloadUser])
 
   const login = (token) => {
     setToken(token)
@@ -37,37 +39,38 @@ export default function MyApp({ Component, pageProps }) {
   }
 
   const logout = () => {
-    if(auth){
+    if (auth) {
       removeToken()
       setAuth(null)
       router.push("/")
     }
   }
 
-  const authData = useMemo(()=>(
+  const authData = useMemo(() => (
     {
       auth,
       login,
       logout,
       setReloadUser,
     }
-  ),[auth])
+  ), [auth])
 
-  if(auth === undefined) return null;
+  if (auth === undefined) return null;
 
   return (
-  <AuthContext.Provider value={authData}>
-    <Component {...pageProps} />
-    <ToastContainer
-      position="top-right"
-      autoClose={3000}
-      hideProgressBar
-      newestOnTop
-      closeOnClick
-      rtl={false}
-      pauseOnFocusLoss={false}
-      draggable
-      pauseOnHover
-    />
-  </AuthContext.Provider>
-)}
+    <AuthContext.Provider value={authData}>
+      <Component {...pageProps} />
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss={false}
+        draggable
+        pauseOnHover
+      />
+    </AuthContext.Provider>
+  )
+}

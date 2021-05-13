@@ -25,7 +25,7 @@ function Info({ game }) {
         <>
             <div className="header-game__title">
                 {title}
-                <Icon name="heart outline like" link />
+                <Icon name="heart outline" className="like" link />
             </div>
             <div className="header-game__delivery">Entrega en 24/48h.</div>
             <div className="header-game__summary" dangerouslySetInnerHTML={{ __html: summary }} />
