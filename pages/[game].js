@@ -3,6 +3,7 @@ import BasicLayout from "../layouts/BasicLayout"
 import HeaderGame from '../components/game/HeaderGame'
 import { useRouter } from "next/router"
 import { getGameApi } from '../api/games'
+import TabsGame from '../components/game/TabsGame/TabsGame'
 
 export default function Game() {
     const { query } = useRouter()
@@ -22,7 +23,7 @@ export default function Game() {
     return (
         <BasicLayout className="game">
             <HeaderGame game={game} />
-            <p>Tabs Game</p>
+            <TabsGame game={game} />
         </BasicLayout>
     )
 }
