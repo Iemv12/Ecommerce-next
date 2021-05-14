@@ -1,6 +1,10 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Grid, Image, Icon, Button } from 'semantic-ui-react'
+import { isFavoriteApi, addFavoriteApi, removeFavoriteApi } from '../../../api/favorite'
 import { size } from 'lodash'
+import useAuth from '../../../hooks/useAuth'
+import classNames from 'classnames'
+import { toast } from 'react-toastify'
 
 export default function HeaderGame({ game }) {
 
@@ -20,12 +24,49 @@ export default function HeaderGame({ game }) {
 function Info({ game }) {
 
     const { title, summary, price, discount } = game
+    const [isFavorite, setIsFavorite] = useState(false)
+    const [realoadFavorite, setRealoadFavorite] = useState(false)
+    const [loading, setLoading] = useState(false)
+    const { auth, logout } = useAuth()
+
+    useEffect(() => {
+        if (auth) {
+            (async () => {
+                const response = await isFavoriteApi(auth.idUser, game.id, logout)
+                size(response) > 0 ? setIsFavorite(true) : setIsFavorite(false)
+            })()
+            setRealoadFavorite(false)
+        }
+    }, [game, realoadFavorite])
+
+    const addFavorites = async () => {
+        if (auth) {
+            setRealoadFavorite(true)
+            await addFavoriteApi(auth.idUser, game.id, logout)
+            toast.success("Ha sido agregado a favorito")
+        } else {
+            toast.error("Debe de iniciar sesion")
+        }
+    }
+
+    const removeFavorites = async () => {
+        if (auth) {
+            setRealoadFavorite(true)
+            await removeFavoriteApi(auth.idUser, game.id, logout)
+        }
+    }
 
     return (
         <>
             <div className="header-game__title">
                 {title}
-                <Icon name="heart outline" className="like" link />
+                <Icon
+                    name={isFavorite ? "heart" : "heart outline"}
+                    className={classNames({
+                        like: isFavorite
+                    })}
+                    link
+                    onClick={isFavorite ? removeFavorites : addFavorites} />
             </div>
             <div className="header-game__delivery">Entrega en 24/48h.</div>
             <div className="header-game__summary" dangerouslySetInnerHTML={{ __html: summary }} />
