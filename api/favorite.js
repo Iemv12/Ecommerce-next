@@ -56,3 +56,14 @@ export async function removeFavoriteApi(idUser, idGame, logout) {
         return null;
     }
 }
+
+export async function listAllFavoritesByUserIdApi(idUser, logout) {
+    try {
+        const url = `${BASE_PATH}/favorites?users_permissions_user=${idUser}`
+        const response = await authFetch(url, null, logout)
+        return response
+    } catch (error) {
+        console.log(error)
+        return null;
+    }
+}
