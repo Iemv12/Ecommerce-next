@@ -28,5 +28,9 @@ export function addProductCart(product){
       toast.success("Producto agregado!")
     }
   }
+}
 
+export function countProductsCart(){
+  const cart = getProductsCart()
+  return cart ? size(cart) : 0;
 }

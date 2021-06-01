@@ -10,12 +10,14 @@ import 'semantic-ui-css/semantic.min.css'
 import 'react-toastify/dist/ReactToastify.css'
 import "slick-carousel/slick/slick.css"
 import "slick-carousel/slick/slick-theme.css"
-import { getProductsCart, addProductCart } from '../api/cart'
+import { getProductsCart, addProductCart, countProductsCart } from '../api/cart'
 
 export default function MyApp({ Component, pageProps }) {
 
   const [auth, setAuth] = useState(undefined)
   const [reloadUser, setReloadUser] = useState(false)
+  const [reloadCard, setReloadCard] = useState(false)
+  const [totalProductCart, setTotalProductCart] = useState(0)
 
   const router = useRouter()
 
@@ -31,6 +33,11 @@ export default function MyApp({ Component, pageProps }) {
     }
     setReloadUser(false)
   }, [reloadUser])
+
+  useEffect(()=> {
+    setTotalProductCart(countProductsCart())
+    setReloadCard(false)
+  },[reloadCard, auth])
 
   const login = (token) => {
     setToken(token)
@@ -51,6 +58,7 @@ export default function MyApp({ Component, pageProps }) {
   const addProduct = (product) => {
     if(auth){
       addProductCart(product)
+      setReloadCard(true)
     } else {
       toast.warning("Debe de iniciar sesion para comprar un producto")
     }
@@ -67,13 +75,13 @@ export default function MyApp({ Component, pageProps }) {
 
   const cartData = useMemo(()=>(
     {
-      productsCart: 0,
+      productsCart: totalProductCart,
       addProductCart: (product) => addProduct(product),
       getProductsCart,
       removeProductCart: () => null,
       removerAllProductsCart: () => null
     }
-  ))
+  ), [totalProductCart])
 
   if (auth === undefined) return null;
 

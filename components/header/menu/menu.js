@@ -1,38 +1,38 @@
-import { useState, useEffect } from 'react'
-import { Container, Menu, Grid, Icon, Label } from 'semantic-ui-react'
-import { getMeApi } from '../../../api/user'
-import { getPlatformApi } from '../../../api/platform'
-import { map } from 'lodash'
-import Link from 'next/link'
-import BasicModal from '../../modal/BasicModal'
-import Auth from '../../auth'
-import useAuth from '../../../hooks/useAuth'
+import { useState, useEffect } from "react";
+import { Container, Menu, Grid, Icon, Label } from "semantic-ui-react";
+import { getMeApi } from "../../../api/user";
+import { getPlatformApi } from "../../../api/platform";
+import { map } from "lodash";
+import Link from "next/link";
+import BasicModal from "../../modal/BasicModal";
+import Auth from "../../auth";
+import useAuth from "../../../hooks/useAuth";
+import useCart from "../../../hooks/useCart";
 
 export default function MenuWeb() {
-
-    const [showModal, setShowModal] = useState(false)
-    const [titleModal, setTitleModal] = useState("Login")
-    const [user, setUser] = useState(undefined)
-    const { auth, logout } = useAuth()
-    const [platforms, setPlatforms] = useState([])
-
-    useEffect(() => {
-        (async () => {
-            const response = await getMeApi(logout)
-            setUser(response)
-        })()
-    }, [auth])
+    const [showModal, setShowModal] = useState(false);
+    const [titleModal, setTitleModal] = useState("Login");
+    const [user, setUser] = useState(undefined);
+    const [platforms, setPlatforms] = useState([]);
+    const { auth, logout } = useAuth();
 
     useEffect(() => {
         (async () => {
-            const response = await getPlatformApi()
-            setPlatforms(response || [])
-        })()
-    }, [])
+            const response = await getMeApi(logout);
+            setUser(response);
+        })();
+    }, [auth]);
 
-    const onShowModal = () => setShowModal(true)
+    useEffect(() => {
+        (async () => {
+            const response = await getPlatformApi();
+            setPlatforms(response || []);
+        })();
+    }, []);
 
-    const onCloseModal = () => setShowModal(false)
+    const onShowModal = () => setShowModal(true);
+
+    const onCloseModal = () => setShowModal(false);
 
     return (
         <div className="menu">
@@ -43,20 +43,28 @@ export default function MenuWeb() {
                     </Grid.Column>
                     <Grid.Column className="menu__right" width={10}>
                         {user !== undefined && (
-                            <MenuOptions onShowModal={onShowModal} user={user} logout={logout} />
+                            <MenuOptions
+                                onShowModal={onShowModal}
+                                user={user}
+                                logout={logout}
+                            />
                         )}
                     </Grid.Column>
                 </Grid>
             </Container>
-            <BasicModal show={showModal} setShow={setShowModal} title={titleModal} size="small">
+            <BasicModal
+                show={showModal}
+                setShow={setShowModal}
+                title={titleModal}
+                size="small"
+            >
                 <Auth setTitleModal={setTitleModal} onCloseModal={onCloseModal} />
             </BasicModal>
         </div>
-    )
+    );
 }
 
 function MenuPlatform({ platforms }) {
-
     return (
         <Menu>
             {map(platforms, (platform) => (
@@ -67,26 +75,26 @@ function MenuPlatform({ platforms }) {
                 </Link>
             ))}
         </Menu>
-    )
+    );
 }
 
-
 function MenuOptions({ onShowModal, user, logout }) {
+    const { productsCart } = useCart();
     return (
         <Menu>
-            { user ? (
+            {user ? (
                 <>
                     <Link href="/orders">
                         <Menu.Item as="a">
                             <Icon name="game" />
-                        Mis Pedidos
-                        </Menu.Item>
+                Mis Pedidos
+            </Menu.Item>
                     </Link>
                     <Link href="/wishlist">
                         <Menu.Item as="a">
                             <Icon name="heart outline" />
-                        Wishlist
-                        </Menu.Item>
+                Wishlist
+            </Menu.Item>
                     </Link>
                     <Link href="/account">
                         <Menu.Item as="a">
@@ -97,6 +105,9 @@ function MenuOptions({ onShowModal, user, logout }) {
                     <Link href="/cart">
                         <Menu.Item as="a" className="m-0">
                             <Icon name="cart" />
+                            <Label color="red" floating circular>
+                                {productsCart}
+                            </Label>
                         </Menu.Item>
                     </Link>
                     <Menu.Item onClick={logout} className="m-0">
@@ -106,9 +117,9 @@ function MenuOptions({ onShowModal, user, logout }) {
             ) : (
                 <Menu.Item onClick={() => onShowModal()}>
                     <Icon name="user outline" />
-                    Mi Cuenta
+          Mi Cuenta
                 </Menu.Item>
             )}
         </Menu>
-    )
+    );
 }
