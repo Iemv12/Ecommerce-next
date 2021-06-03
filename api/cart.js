@@ -34,3 +34,16 @@ export function countProductsCart(){
   const cart = getProductsCart()
   return cart ? size(cart) : 0;
 }
+
+export function removeProductCart(product){
+  const cart = getProductsCart()
+  remove(cart, (item)=> {
+    return item === product
+  })
+
+  if(size(cart)>0){
+    localStorage.setItem(CART, cart)
+  } else {
+    localStorage.removeItem(CART)
+  }
+}
