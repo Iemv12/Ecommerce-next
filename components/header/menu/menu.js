@@ -92,22 +92,24 @@ function MenuOptions({ onShowModal, user, logout }) {
                     </Link>
                     <Link href="/wishlist">
                         <Menu.Item as="a">
-                            <Icon name="heart outline" />
+                            <Icon name="heart" />
                 Wishlist
             </Menu.Item>
                     </Link>
                     <Link href="/account">
                         <Menu.Item as="a">
-                            <Icon name="user outline" />
+                            <Icon name="user" />
                             {user.name} {user.lastname}
                         </Menu.Item>
                     </Link>
                     <Link href="/cart">
                         <Menu.Item as="a" className="m-0">
                             <Icon name="cart" />
-                            <Label color="red" floating circular>
-                                {productsCart}
-                            </Label>
+                            {productsCart > 0 && (
+                                <Label color="red" floating circular>
+                                    {productsCart}
+                                </Label>
+                            )}
                         </Menu.Item>
                     </Link>
                     <Menu.Item onClick={logout} className="m-0">

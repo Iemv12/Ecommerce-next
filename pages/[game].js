@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import BasicLayout from "../layouts/BasicLayout"
 import HeaderGame from '../components/game/HeaderGame'
 import { useRouter } from "next/router"
-import { getGameApi } from '../api/games'
+import { getGameByUrlApi } from '../api/games'
 import TabsGame from '../components/game/TabsGame/TabsGame'
 
 export default function Game() {
@@ -13,7 +13,7 @@ export default function Game() {
 
     useEffect(() => {
         (async () => {
-            const result = await getGameApi(gameOfQuery)
+            const result = await getGameByUrlApi(gameOfQuery)
             setGame(result)
         })()
     }, [query])

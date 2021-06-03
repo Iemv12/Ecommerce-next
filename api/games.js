@@ -41,7 +41,7 @@ export async function getTotalGamesPlatformApi(platform) {
     }
 }
 
-export async function getGameApi(game) {
+export async function getGameByUrlApi(game) {
     try {
         const url = `${BASE_PATH}/games?url=${game}`
         const response = await fetch(url)

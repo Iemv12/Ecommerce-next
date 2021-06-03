@@ -10,7 +10,7 @@ import 'semantic-ui-css/semantic.min.css'
 import 'react-toastify/dist/ReactToastify.css'
 import "slick-carousel/slick/slick.css"
 import "slick-carousel/slick/slick-theme.css"
-import { getProductsCart, addProductCart, countProductsCart } from '../api/cart'
+import { getProductsCart, addProductCart, countProductsCart, removeProductCart } from '../api/cart'
 
 export default function MyApp({ Component, pageProps }) {
 
@@ -56,8 +56,20 @@ export default function MyApp({ Component, pageProps }) {
   }
 
   const addProduct = (product) => {
-    if(auth){
+    const token = getToken()
+    if(token){
       addProductCart(product)
+      setReloadCard(true)
+    } else {
+      toast.warning("Debe de iniciar sesion para comprar un producto")
+    }
+  }
+
+
+  const removeProduct = (product) => {
+    const token = getToken()
+    if(token){
+      removeProductCart(product)
       setReloadCard(true)
     } else {
       toast.warning("Debe de iniciar sesion para comprar un producto")
@@ -78,7 +90,7 @@ export default function MyApp({ Component, pageProps }) {
       productsCart: totalProductCart,
       addProductCart: (product) => addProduct(product),
       getProductsCart,
-      removeProductCart: () => null,
+      removeProductCart: (product) => removeProduct(product),
       removerAllProductsCart: () => null
     }
   ), [totalProductCart])
